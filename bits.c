@@ -163,11 +163,11 @@ int div_pwr_2(int x, int n) {
 	//what if i use a mask to make leftmost always pos
 
 	// if x is positive (when leftmost/most significant bit is 0)
-	int result = x >> n;
+	int resultp = x >> n;
 	
 	// if x is negative (when leftmost/most significant bit is 1)
 	int neg = ~(1) + 1;
-	int result = (x + (1<<n)+neg) >> n;
+	int resultn = (x + (1<<n)+neg) >> n;
 
 	return result; }
 
@@ -245,7 +245,7 @@ int abs_val(int x) {
 	//brief explanation 
 
 	int mask = x >> 31;
-	int result = ((n + mask) ^  mask);
+	int result = ((x + mask) ^ mask);
 
 	return result; }
 
