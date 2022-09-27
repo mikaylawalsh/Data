@@ -146,7 +146,7 @@ int negate(int x) {
 int is_equal(int x, int y) { 
 	//brief explanation
 
-	return !(~((~x) & y));}
+	return !((~x) & y);}
 
 /*
  * div_pwr_2 - Compute x/(2^n), for 0 <= n <= 30
