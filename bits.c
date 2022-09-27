@@ -169,7 +169,7 @@ int div_pwr_2(int x, int n) {
 	int neg = ~(1) + 1;
 	int resultn = (x + (1<<n)+neg) >> n;
 
-	return result; }
+	return resultn; }
 
 /*
  * conditional - Compute the result of x ? y : z
