@@ -145,17 +145,3 @@ Run the following in terminal/command prompt.
 This will install a version of gcc for compiling 32-bit programs.
 Since Data is all about manipulating bits, it's integral you use
 32-bit integer representations when solving the puzzles!
-
-**********************
-6. Written Questions
-**********************
-Please answer and explain your answers to the following questions.
-These questions will be graded by hand after submission.
-
-1. What is the smallest positive non-zero value that can be
-represented as a normalized double-precision number? How much
-larger is the next smallest value?
-
-2. What is the smallest positive non-zero value that can be
-represented as a denormalized double-precision number? How much
-greater than this is the next smallest value?

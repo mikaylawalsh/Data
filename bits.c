@@ -113,7 +113,11 @@ EXAMPLES OF ACCEPTABLE CODING STYLE:
  *   Max ops: 8
  *   Points: 2
  */
-int bit_and(int x, int y) { return 2; }
+int bit_and(int x, int y) { 
+    
+    int result = ~(~x | ~y);
+
+	return result; }
 
 /*
  * negate - Return -x
@@ -124,7 +128,12 @@ int bit_and(int x, int y) { return 2; }
  *   Max ops: 5
  *   Points: 4
  */
-int negate(int x) { return 2; }
+int negate(int x) { 
+	//brief explanation 
+
+	int result = ~x + 1;
+
+	return result; }
 
 /*
  * is_equal - Return 1 if x == y, else return 0
@@ -134,7 +143,10 @@ int negate(int x) { return 2; }
  *   Max ops: 5
  *   Points: 4
  */
-int is_equal(int x, int y) { return 2; }
+int is_equal(int x, int y) { 
+	//brief explanation
+
+	return !(~((~x) & y));}
 
 /*
  * div_pwr_2 - Compute x/(2^n), for 0 <= n <= 30
@@ -145,7 +157,19 @@ int is_equal(int x, int y) { return 2; }
  *   Max ops: 15
  *   Points: 4
  */
-int div_pwr_2(int x, int n) { return 2; }
+int div_pwr_2(int x, int n) { 
+	//breif explanation 
+
+	//what if i use a mask to make leftmost always pos
+
+	// if x is positive (when leftmost/most significant bit is 0)
+	int result = x >> n;
+	
+	// if x is negative (when leftmost/most significant bit is 1)
+	int neg = ~(1) + 1;
+	int result = (x + (1<<n)+neg) >> n;
+
+	return result; }
 
 /*
  * conditional - Compute the result of x ? y : z
@@ -155,7 +179,14 @@ int div_pwr_2(int x, int n) { return 2; }
  *   Max ops: 16
  *   Points: 6
  */
-int conditional(int x, int y, int z) { return 2; }
+int conditional(int x, int y, int z) { 
+	
+	//if x == 1 do y, if x == 0 do z
+	int neg = ~(1) + 1;
+	x = !x + neg;
+	int result = (x & y) | (~x & z);
+
+	return result; }
 
 /*
  * add_ok - Return 0 if x+y will overflow, resulting in an incorrect computation.
@@ -167,7 +198,24 @@ int conditional(int x, int y, int z) { return 2; }
  *   Max ops: 20
  *   Points: 6
  */
-int add_ok(int x, int y) { return 2; }
+int add_ok(int x, int y) { 
+	//breif explanation 
+
+	//only signed -- adding two positve ints gives a negative, any other cases?  
+
+	//has to do with most signif bit? 
+	//isolate that by doing >> 31 (whole number will be what that bit is...either -1 or 0)
+
+	//check 32 bit of x + 32 bit of y == 32 bit of x + y
+	int x_sig_bit = x >> 31;
+	int y_sig_bit = y >> 31;
+	int x_plus_y = (x+y) >> 31;
+
+	int sig_bits = x_sig_bit + y_sig_bit;
+
+	int result = !(~((~x_plus_y) & sig_bits));
+
+	return result; } //not sure if this is gonna work
 
 /*
  * leastBitPos - Return a mask that marks the position of the
@@ -178,7 +226,11 @@ int add_ok(int x, int y) { return 2; }
  *   Max ops: 6
  *   Points: 8
  */
-int leastBitPos(int x) { return 2; }
+int leastBitPos(int x) { 
+	//brief explanation 
+	
+	
+	return 2; }
 
 /*
  * abs_val - Return the absolute value of x
@@ -189,7 +241,13 @@ int leastBitPos(int x) { return 2; }
  *   Max ops: 6
  *   Points: 10
  */
-int abs_val(int x) { return 2; }
+int abs_val(int x) {
+	//brief explanation 
+
+	int mask = x >> 31;
+	int result = ((n + mask) ^  mask);
+
+	return result; }
 
 /*
  * bang - Compute !x without using !
@@ -200,4 +258,11 @@ int abs_val(int x) { return 2; }
  *   Max ops: 12
  *   Points: 10
  */
-int bang(int x) { return 2; }
+int bang(int x) { 
+	
+	//maybe come up with different implementation 
+	
+	int result = ((~x + 1) | x) >> 31;
+	//if result is not 0, return 1
+	
+	return result + 1; }
