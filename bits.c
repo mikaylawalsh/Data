@@ -114,6 +114,14 @@ EXAMPLES OF ACCEPTABLE CODING STYLE:
  *   Points: 2
  */
 int bit_and(int x, int y) { 
+	/* In order to get the result of taking the "bitwise and" of signed inputs x and y, is by first 
+	taking the complement of both x and y. After doing this, we take the "bitwise or" of those values 
+	which will give us the opposite of the value we are looking for. In order to find the final result, 
+	we take the complement of that value. */
+
+	// 1100 0101
+	// 0011 1010
+	// 1011
     
     int result = ~(~x | ~y);
 
@@ -129,7 +137,10 @@ int bit_and(int x, int y) {
  *   Points: 4
  */
 int negate(int x) { 
-	//brief explanation 
+	/* After looking at a couple of examples of positive and negative values, I noticed that the negative
+	of an int in two's complement representation is just the complement of it plus 1. This is because
+	when we are considering signed intergers, there is always one more negative value than positive so we
+	need to adjust for this by adding 1. */
 
 	int result = ~x + 1;
 
@@ -144,7 +155,11 @@ int negate(int x) {
  *   Points: 4
  */
 int is_equal(int x, int y) { 
-	//brief explanation
+	/* In order to determin if x is equal to y, we can use the exclusive or operator. Exclusive or becomes 
+	the almost obvious choice since if if x and y are equal, it will return 0 and otherwise it will return some
+	other number besides 0. However, we want to return 1 is x == y and 0 otherwise. This almost looks like
+	the opposite of what we currently have, so in order to adjust for this, we can just take the logical not 
+	of x ^ y. */
 
 	return !(x ^ y);}
 
@@ -168,7 +183,7 @@ int div_pwr_2(int x, int n) {
 
 	//add pos and neg 
 	x = !x + neg;
-	int result = ((~x + 1) & pos_answer) | (~x & neg_answer);
+	int result = ((~x + 1) & pos_answer) | (~x & neg_answer); //fix this 
 
 	return result; }
 
@@ -181,11 +196,15 @@ int div_pwr_2(int x, int n) {
  *   Points: 6
  */
 int conditional(int x, int y, int z) { 
+	/* The goal of this function is to return y if x = 1 and return x is x = 0. 
 	
-	//if x == 1 do y, if x == 0 do z
+	*/
+
+	//if x is not zero return y
+
 	int neg = ~(1) + 1;
-	x = !x + neg;
-	int result = (x & y) | (~x & z);
+	int x_binary = !(!x);
+	int result = (x_binary & y) | (~x_binary & z);
 
 	return result; }
 
@@ -200,23 +219,27 @@ int conditional(int x, int y, int z) {
  *   Points: 6
  */
 int add_ok(int x, int y) { 
-	//breif explanation 
+	/* Since both inputs we are considering are signed, there is really just two cases we must consider: 
+	(1) adding two positive ints results in a negative and (2) adding two negative ints that give a positive
+	result. In order to determine if this is happening, we need to look at the 32nd bit in the number. To
+	find this, we can right shift the int by 31. This will turn every bit in the number into the original 
+	leftmost/most significant bit. If there is no overflow/underflow, the result of added the most signifcant 
+	bits of both numbers should be the same as adding the two numbers and then looking at the most signicatnt 
+	bit. So there are three values we are looking at: x's most signifcant bit (x_sig_bit), y's most signifcant 
+	bit (y_sig_bit), and the most significan bit of x + y (x_plus_y). We want our function to return 1 when 
+	x_sig_bit and y_sig_bit are the same, but x_sig_bit and x_plus_y is not the same -- and return 0 in any other
+	case. In order to check if the values are not the same we can use exclusive or. After making a truth table for 
+	this, I discovered that we can get the desired results by taking the complment of x_sig_bit ^ y_sig_bit and 
+	taking the bitwise and of this with x_sig_bit ^ x_plus_y. Lastly, we take the logical not of this whole thing. 
+	*/
 
-	//only signed -- adding two positve ints gives a negative, any other cases?  
-
-	//has to do with most signif bit? 
-	//isolate that by doing >> 31 (whole number will be what that bit is...either -1 or 0)
-
-	//check 32 bit of x + 32 bit of y == 32 bit of x + y
 	int x_sig_bit = x >> 31;
 	int y_sig_bit = y >> 31;
 	int x_plus_y = (x+y) >> 31;
 
-	//int sig_bits = x_sig_bit + y_sig_bit;
-
 	int result = !(~(x_sig_bit ^ y_sig_bit) & (x_sig_bit ^ x_plus_y));
 
-	return result; } //not sure if this is gonna work
+	return result; }
 
 /*
  * leastBitPos - Return a mask that marks the position of the
@@ -228,7 +251,15 @@ int add_ok(int x, int y) {
  *   Points: 8
  */
 int leastBitPos(int x) { 
-	//brief explanation 
+	/* Finding the position of the least significant 1 bit in x is the same as finding the position of the least 
+	significant 0 bit in the complement of x. If we add 1 to this number, the "carry" will be 0 when we reach the
+	first 0 in the number since 1 + 0 does not require a carry. Once we reach this place value where the carry 
+	goes to 0, the rest of the values to the left will just copy down from the orignal value. Therefore, we can use 
+	bitwise and with the original value to deteremine the place where the value changes. This will give us the mask 
+	of the position of the least significan 1 bit. 
+
+	Ex. x = 0011	~x = 1100	~x+1 = 1101		(~x+1) & x = 0001	Meaning the least signifcant 1 is in the first place. 
+	*/ 
 	
 	int result = ((~x) + 1) & x;
 	
@@ -244,10 +275,18 @@ int leastBitPos(int x) {
  *   Points: 10
  */
 int abs_val(int x) {
-	//brief explanation 
+	/* When we take the absolute value of an int, we are considering the sign of the number. We know that
+	the sign of the int is held in the leftmost bit. In order to look at this, we can shift the input by 31  
+	bits right in order to have a 32 bit int filled with all values that are the most significant value of the
+	input. This new int (called shift in our function) is either going to be all 1's (-1) or all 0's (0). If the 
+	input is positive, shift will be 0, so x + shift will just give back x. If the input is negative, shift will
+	be -1, so x + shift will give x - 1. When we take the exclusive or of any number with -1, we get the complement 
+	of that value, but if we take the exclusive of of any number with 0, we get itself. The complement of a negative 
+	number is one less than that as the postive value (as we determined in negate), so taking the exclusive or of 
+	of x + shift with shift, we get the absolute value. If the input is positive, we just get the input back. */ 
 
-	int mask = x >> 31;
-	int result = ((x + mask) ^ mask);
+	int shift = x >> 31;
+	int result = ((x + shift) ^ shift);
 
 	return result; }
 
@@ -263,8 +302,30 @@ int abs_val(int x) {
 int bang(int x) { 
 	
 	//maybe come up with different implementation 
+
+	//we have x and the negative of x 
+	// 1 is input, should get 0 
+	// x = 0001 	~x = 1110 	~x + 1 = 1111
+	// 0001 | 1111 = 1111
+	// 1111 >>31 = 1111
+	// 1111 + 0001 = 0000
+
+	// 0 is input, should get 1
+	// x = 0000		~x = 1111 	~x + 1 = 0000
+	// 0000 | 0000 = 0000
+	// 0000 >>31 = 0000
+	// 0000 + 0001 = 0001 
+
+	// 3 is input, should get 0
+	// x = 0011 	~x = 1100 	~x + 1 = 1101
+	// 0011 | 1101 = 1111
+	// 1111 >> 31 = 1111
+	// 1111 + 0001 = 0000
+
+	//2 is input, should get 0
+	// x = 0010		~x = 1101	~x+1 = 1110
+	// 0010 | 1110 = 1110
 	
 	int result = ((~x + 1) | x) >> 31;
-	//if result is not 0, return 1
 	
 	return result + 1; }
