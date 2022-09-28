@@ -118,10 +118,6 @@ int bit_and(int x, int y) {
 	taking the complement of both x and y. After doing this, we take the "bitwise or" of those values 
 	which will give us the opposite of the value we are looking for. In order to find the final result, 
 	we take the complement of that value. */
-
-	// 1100 0101
-	// 0011 1010
-	// 1011
     
     int result = ~(~x | ~y);
 
@@ -159,7 +155,7 @@ int is_equal(int x, int y) {
 	the almost obvious choice since if if x and y are equal, it will return 0 and otherwise it will return some
 	other number besides 0. However, we want to return 1 is x == y and 0 otherwise. This almost looks like
 	the opposite of what we currently have, so in order to adjust for this, we can just take the logical not 
-	of x ^ y. */
+	of x ^ y. */ 
 
 	return !(x ^ y);}
 
@@ -177,13 +173,11 @@ int div_pwr_2(int x, int n) {
 
 	int pos_answer = x >> n;
 	
-	// if x is negative (when leftmost/most significant bit is 1)
 	int neg = ~(1) + 1;
 	int neg_answer = (x + (1<<n)+neg) >> n;
 
-	//add pos and neg 
-	int y = ~(x >> 31); //mask or whatever  
-	int result = (y & pos_answer) | (~y & neg_answer); //fix this 
+	int y = ~(x >> 31); 
+	int result = (y & pos_answer) | (~y & neg_answer);
 
 	return result; }
 
@@ -196,14 +190,23 @@ int div_pwr_2(int x, int n) {
  *   Points: 6
  */
 int conditional(int x, int y, int z) { 
-	/* The goal of this function is to return y if x != 0 and return z is x = 0. 
-	
-	*/
+	/* The goal of this function is to return y if x != 0 and return z is x = 0. My plan 
+	was to use the idea that using bitwise and with 0, always gives 0 and using bitwise and 
+	with -1, always gives the other input. This is essentially what we want, if x = -1 or 0,
+	we can take the complement and and it with the other input. So the first step was finding 
+	a way to get x to be -1 or 0. If x = 0, taking the logical not of it will give 1 and if 
+	x != 0, not will give 0. This is close to what we want, except we want -1 and 0. So all we 
+	need to do is take 1 away, however, since we can't use subtraction, we have to add the negation 
+	of 1. Using the same logic as negate, we get neg_1 = ~1 + 1. Therefore, our new x value we 
+	want to use for evaluation is !x + neg_1. Now, we have x = -1 if the original input was not 0 and 
+	x = 1 if the input was 0. Then, using the logic from the beginning, we now have either x & y will be 
+	y if x is -1 or ~x & z will be z if x = 0. The last step is using bitwise or to combine these 
+	two since one of them will always produce 0, the other will be the output. */
 
 	//if x is not zero return y
 
-	int neg = ~(1) + 1;
-	x = !x + neg;
+	int neg_1 = ~(1) + 1;
+	x = !x + neg_1;
 	int result = (x & y) | (~x & z);
 
 	return result; }
@@ -301,31 +304,10 @@ int abs_val(int x) {
  */
 int bang(int x) { 
 	
-	//maybe come up with different implementation 
+	//int result = ((~x + 1) | x) >> 31; result + 1
 
-	//we have x and the negative of x 
-	// 1 is input, should get 0 
-	// x = 0001 	~x = 1110 	~x + 1 = 1111
-	// 0001 | 1111 = 1111
-	// 1111 >>31 = 1111
-	// 1111 + 0001 = 0000
+	int neg_1 = ~(1) + 1;
+	x = !x + neg_1;
+	int result = (x & 0) | (~x & 1);
 
-	// 0 is input, should get 1
-	// x = 0000		~x = 1111 	~x + 1 = 0000
-	// 0000 | 0000 = 0000
-	// 0000 >>31 = 0000
-	// 0000 + 0001 = 0001 
-
-	// 3 is input, should get 0
-	// x = 0011 	~x = 1100 	~x + 1 = 1101
-	// 0011 | 1101 = 1111
-	// 1111 >> 31 = 1111
-	// 1111 + 0001 = 0000
-
-	//2 is input, should get 0
-	// x = 0010		~x = 1101	~x+1 = 1110
-	// 0010 | 1110 = 1110
-	
-	int result = ((~x + 1) | x) >> 31;
-	
-	return result + 1; }
+	return result; }
