@@ -229,8 +229,9 @@ int add_ok(int x, int y) {
 int leastBitPos(int x) { 
 	//brief explanation 
 	
+	int result = ((~x) + 1) & x;
 	
-	return 2; }
+	return result; }
 
 /*
  * abs_val - Return the absolute value of x
