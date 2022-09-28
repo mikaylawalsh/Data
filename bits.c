@@ -200,11 +200,11 @@ int conditional(int x, int y, int z) {
 	
 	*/
 
-	//if x is not zero return y
+	//if x is not ero return y
 
 	int neg = ~(1) + 1;
-	int x_binary = !(!x);
-	int result = (x_binary & y) | (~x_binary & z);
+	x = !x + neg;
+	int result = (x & y) | (~x & z);
 
 	return result; }
 
