@@ -309,6 +309,6 @@ int bang(int x) {
 	//x = ~(x ^ 0) + 1;
 	//int result = (x & 0) | (~x & 1);
 
-	int result - ((~x +1) | x ) >> 31;
+	int result = ((~x +1) | x ) >> 31;
 
 	return result +1; }
