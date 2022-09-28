@@ -182,8 +182,8 @@ int div_pwr_2(int x, int n) {
 	int neg_answer = (x + (1<<n)+neg) >> n;
 
 	//add pos and neg 
-	x = !x + neg;
-	int result = ((~x + 1) & pos_answer) | (~x & neg_answer); //fix this 
+	int y = ~(x >> 31); //mask or whatever  
+	int result = (y & pos_answer) | (~y & neg_answer); //fix this 
 
 	return result; }
 
@@ -196,11 +196,11 @@ int div_pwr_2(int x, int n) {
  *   Points: 6
  */
 int conditional(int x, int y, int z) { 
-	/* The goal of this function is to return y if x = 1 and return x is x = 0. 
+	/* The goal of this function is to return y if x != 0 and return z is x = 0. 
 	
 	*/
 
-	//if x is not ero return y
+	//if x is not zero return y
 
 	int neg = ~(1) + 1;
 	x = !x + neg;
