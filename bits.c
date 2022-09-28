@@ -306,7 +306,7 @@ int bang(int x) {
 	
 	int neg_1 = ~(1) + 1;
 	//x = !x + neg_1;
-	x = ~(x ^ 0) + 1
+	x = ~(x ^ 0) + 1;
 	int result = (x & 0) | (~x & 1);
 
 	return result; }
