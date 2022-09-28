@@ -160,16 +160,15 @@ int is_equal(int x, int y) {
 int div_pwr_2(int x, int n) { 
 	//breif explanation 
 
-	//what if i use a mask to make leftmost always pos
-
-	// if x is positive (when leftmost/most significant bit is 0)
-	int resultp = x >> n;
+	int pos_answer = x >> n;
 	
 	// if x is negative (when leftmost/most significant bit is 1)
 	int neg = ~(1) + 1;
-	int resultn = (x + (1<<n)+neg) >> n;
+	int neg_answer = (x + (1<<n)+neg) >> n;
 
-	return resultn; }
+	int result = ((~x + 1) & pos_answer) | (~x & neg_answer);
+
+	return result; }
 
 /*
  * conditional - Compute the result of x ? y : z
@@ -213,7 +212,7 @@ int add_ok(int x, int y) {
 
 	int sig_bits = x_sig_bit + y_sig_bit;
 
-	int result = !(~((~x_plus_y) & sig_bits));
+	int result = !(x_plus_y ^ sig_bits);
 
 	return result; } //not sure if this is gonna work
 
