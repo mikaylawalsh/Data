@@ -212,9 +212,9 @@ int add_ok(int x, int y) {
 	int y_sig_bit = y >> 31;
 	int x_plus_y = (x+y) >> 31;
 
-	int sig_bits = x_sig_bit + y_sig_bit;
+	//int sig_bits = x_sig_bit + y_sig_bit;
 
-	int result = !(~(x_sig_bit ^ y_sig_bit) & (x_sig_bit ^ sig_bits));
+	int result = !(~(x_sig_bit ^ y_sig_bit) & (x_sig_bit ^ x_plus_y));
 
 	return result; } //not sure if this is gonna work
 
