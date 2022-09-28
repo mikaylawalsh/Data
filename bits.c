@@ -304,10 +304,9 @@ int abs_val(int x) {
  */
 int bang(int x) { 
 	
-	//int result = ((~x + 1) | x) >> 31; result + 1
-
 	int neg_1 = ~(1) + 1;
-	x = !x + neg_1;
+	//x = !x + neg_1;
+	x = ~(x ^ 0) + 1
 	int result = (x & 0) | (~x & 1);
 
 	return result; }
