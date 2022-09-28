@@ -166,6 +166,8 @@ int div_pwr_2(int x, int n) {
 	int neg = ~(1) + 1;
 	int neg_answer = (x + (1<<n)+neg) >> n;
 
+	//add pos and neg 
+	x = !x + neg;
 	int result = ((~x + 1) & pos_answer) | (~x & neg_answer);
 
 	return result; }
@@ -212,7 +214,7 @@ int add_ok(int x, int y) {
 
 	int sig_bits = x_sig_bit + y_sig_bit;
 
-	int result = !(x_plus_y ^ sig_bits);
+	int result = !(~(x_sig_bit ^ y_sig_bit) & (x_sig_bit ^ sig_bits));
 
 	return result; } //not sure if this is gonna work
 
