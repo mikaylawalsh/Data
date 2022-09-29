@@ -271,7 +271,7 @@ while ($line = <INFILE>) {
     chomp($line);
 
     # Notice that we're ready to read the puzzle scores
-    if ($line =~ /^Score/) {
+    if ($line =~ /^Max/) {
 	$inpuzzles = 1;
 	next;
     }
@@ -284,13 +284,13 @@ while ($line = <INFILE>) {
 
     # Read and record a puzzle's name and score
     if ($inpuzzles) {
-	($blank, $c_points, $c_rating, $c_errors, $name) = split(/\s+/, $line);
+	($blank, $c_rating, $c_points, $c_errors, $name) = split(/\s+/, $line);
 	$puzzle_c_points{$name} = $c_points;
 	$puzzle_c_errors{$name} = $c_errors;
-	$puzzle_c_rating{$name} = $c_rating;
+	$puzzle_c_rating{$name} = $c_rating / 2;
 	$puzzle_number{$name} = $puzzlecnt++;
 	$total_c_points += $c_points;
-	$total_c_rating += $c_rating * 2;
+	$total_c_rating += $c_rating;
     }
 
 }
@@ -312,7 +312,7 @@ while ($line = <INFILE>) {
     chomp($line);
 
     # Notice that we're ready to read the puzzle scores
-    if ($line =~ /^Score/) {
+    if ($line =~ /^Max/) {
 	$inpuzzles = 1;
 	next;
     }
@@ -325,11 +325,11 @@ while ($line = <INFILE>) {
 
     # Read and record a puzzle's name and score
     if ($inpuzzles) {
-	($blank, $p_points, $p_rating, $p_errors, $name) = split(/\s+/, $line);
+	($blank, $p_rating, $p_points, $p_errors, $name) = split(/\s+/, $line);
     # This hack is to scale the assignment to 90 points
 	$puzzle_p_points{$name} = $p_points;
 	$total_p_points += $p_points;
-	$total_p_rating += $p_rating * 2;
+	$total_p_rating += $p_rating;
     }
 }
 close(INFILE);
@@ -437,4 +437,3 @@ sub clean {
     my $tmpdir = shift;
     system("rm -rf $tmpdir");
 }
-
