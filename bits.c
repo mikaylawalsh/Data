@@ -213,7 +213,9 @@ int conditional(int x, int y, int z) {
 
 	int neg_1 = ~(1) + 1;
 	x = !x + neg_1;
-	int result = (x & y) | (~x & z);
+	int result;
+	result = x & y;
+	result = result | (~x & z);
 
 	return result; }
 
