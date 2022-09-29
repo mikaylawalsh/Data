@@ -117,8 +117,9 @@ int bit_and(int x, int y) {
 	/* In order to get the result of taking the "bitwise and" of signed inputs x and y, is by first 
 	taking the complement of both x and y. After doing this, we take the "bitwise or" of those values 
 	which will give us the opposite of the value we are looking for. In order to find the final result, 
-	we take the complement of that value. */
-    
+	we take the complement of that value. We do this because by taking the or of the complements, we are 
+	manipulating the bits that are now 0. Taking the final complement returns it to the orignal state. */
+
     int result = ~(~x | ~y);
 
 	return result; }
@@ -169,7 +170,14 @@ int is_equal(int x, int y) {
  *   Points: 4
  */
 int div_pwr_2(int x, int n) { 
-	//breif explanation 
+	/* For this problem, there are two cases we need to consider: (1) when x is positive and (2) when x
+	is negative. To calculate the answer when x is positive, all we need to do is right shift x by n 
+	bits. This is give us x / 2^n rounded towards 0. When x is negative, x >> n will still give x / 2^n 
+	however, it will round the answer away from 0 which is not what we want. In order to take the floor of
+	x / 2^n when x is negative, we need to do (x + (1<<n) - 1) >> n. However, since we can't use subtraction, 
+	we need to negate 1 and add that. In order to determine which value we return, I used the same logic 
+	that was used in conditional: y is either 0 or -1 based on the sign of x and from there either pos_answer 
+	or neg_answer are returned. */ 
 
 	int pos_answer = x >> n;
 	
@@ -303,12 +311,18 @@ int abs_val(int x) {
  *   Points: 10
  */
 int bang(int x) { 
-	
-	//int neg_1 = ~(1) + 1;
-	//x = !x + neg_1;
-	//x = ~(x ^ 0) + 1;
-	//int result = (x & 0) | (~x & 1);
+	/* For this problem, we want to return 0 if x != 0 and return 1 if x = 0. 
+	In order to solve this, I first had to think about what the difference is 
+	between 0 and all other numbers. Although there are many answers, the one 
+	that is really helpful here is the fact that the negation of 0 is 0. For 
+	any other number, the most significant bit of the negation will be the opposite 
+	of that of the original. This is the fact we are going to exploit in order 
+	to complete this. In order to do this, we take the bitwise or of the input and 
+	its negation and then look at the most significant bit. If it is 0, we want to 
+	return 1 and if it is 1 we want to return 0. So, next we can shift the or of the 
+	input and its negation by 31 bits in order to have an int filled with all 0s or 1s. 
+	Lastly, we need to just add 1 in order to return 1 if it is 0 and 0 if it is -1. */
 
-	int result = ((~x +1) | x ) >> 31;
+	int result = ((~x + 1) | x ) >> 31;
 
-	return result +1; }
+	return result + 1; }
