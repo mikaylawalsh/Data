@@ -211,8 +211,6 @@ int conditional(int x, int y, int z) {
 	y if x is -1 or ~x & z will be z if x = 0. The last step is using bitwise or to combine these 
 	two since one of them will always produce 0, the other will be the output. */
 
-	//if x is not zero return y
-
 	int neg_1 = ~(1) + 1;
 	x = !x + neg_1;
 	int result = (x & y) | (~x & z);
