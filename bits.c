@@ -213,11 +213,11 @@ int conditional(int x, int y, int z) {
 
 	int neg_1 = ~(1) + 1;
 	x = !x + neg_1;
-	int result;
-	result = x & y;
-	result = result | (~x & z);
+	int r;
+	r = x & y;
+	r = r | (~x & z);
 
-	return result; }
+	return r; }
 
 /*
  * add_ok - Return 0 if x+y will overflow, resulting in an incorrect computation.
